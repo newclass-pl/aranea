@@ -38,4 +38,20 @@ class HTTPHeader
     {
         return $this->name.': '.$this->value;
     }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
 }
