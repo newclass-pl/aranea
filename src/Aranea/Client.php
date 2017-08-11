@@ -1,15 +1,4 @@
 <?php
-/**
- * Aranea: Web client
- * Copyright (c) NewClass (http://newclass.pl)
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the file LICENSE
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright (c) NewClass (http://newclass.pl)
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
- */
 
 namespace Aranea;
 
@@ -33,11 +22,14 @@ class Client
     public function requestGet($url, $headers = [])
     {
         $request = new HTTPRequest($url);
+        foreach($headers as $kHeader=>$header){
+            $request->addHeader(new HTTPHeader($kHeader,$header));
+        }
         return $this->execute($request);
     }
 
 
-    private function execute(HTTPRequest $request)
+    public function execute(HTTPRequest $request)
     {
         foreach ($this->preExecute as $execute) {
             call_user_func_array($execute, [$request]);
@@ -83,12 +75,14 @@ class Client
         }
     }
 
-    public function requestPost($url, $attr)
+    public function requestPost($url, $attr,$headers=[])
     {
         $request = new HTTPRequest($url);
+        foreach($headers as $kHeader=>$header){
+            $request->addHeader(new HTTPHeader($kHeader,$header));
+        }
         $request->setMethod(HttpRequest::METHOD_POST);
         $request->setBody($attr);
-        $request->setContentType(HTTPRequest::CONTENT_TYPE_JSON);
         return $this->execute($request);
 
     }
