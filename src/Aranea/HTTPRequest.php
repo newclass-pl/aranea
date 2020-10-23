@@ -11,10 +11,13 @@ namespace Aranea;
 
 class HTTPRequest
 {
-    const METHOD_GET = 'get';
-    const METHOD_POST = 'post';
+    const METHOD_GET = 'GET';
+    const METHOD_POST = 'POST';
+    const METHOD_PUT = 'PUT';
+    const METHOD_DELETE = 'DELETE';
+
     const CONTENT_TYPE_JSON = 'application/json';
-    const CONTENT_TYPE_QUER_STRING = 'query_string';
+    const CONTENT_TYPE_QUERY_STRING = 'query_string';
 
     /**
      * @var string
@@ -43,7 +46,7 @@ class HTTPRequest
     /**
      * @var HTTPHeader[]
      */
-    private $headers=[];
+    private $headers = [];
 
     /**
      * HTTPRequest constructor.
@@ -53,7 +56,7 @@ class HTTPRequest
     {
         $this->url = $url;
         $this->setMethod(static::METHOD_GET);
-        $this->setMethod(static::CONTENT_TYPE_QUER_STRING);
+        $this->setMethod(static::CONTENT_TYPE_QUERY_STRING);
     }
 
     public function getUrl()
@@ -68,12 +71,12 @@ class HTTPRequest
 
     public function isAuth()
     {
-        return null!==$this->auth;
+        return null !== $this->auth;
     }
 
     public function setAuth($login, $password)
     {
-        $this->auth=$login.':'.$password;
+        $this->auth = $login.':'.$password;
 
         return $this;
     }
@@ -85,6 +88,7 @@ class HTTPRequest
     public function setMethod($method)
     {
         $this->method = $method;
+
         return $this;
     }
 
@@ -93,7 +97,7 @@ class HTTPRequest
      */
     public function getMethod()
     {
-        return $this->method;
+        return strtoupper($this->method);
     }
 
     /**
@@ -103,6 +107,7 @@ class HTTPRequest
     public function setBody($body)
     {
         $this->body = $body;
+
         return $this;
     }
 
@@ -111,10 +116,11 @@ class HTTPRequest
      */
     public function getBody()
     {
-        $transform=new RawTransform();
-        if($this->getContentType()===static::CONTENT_TYPE_JSON){
-            $transform=new JsonTranform();
+        $transform = new RawTransform();
+        if ($this->getContentType() === static::CONTENT_TYPE_JSON) {
+            $transform = new JsonTranform();
         }
+
         return $transform->encode($this->body);
     }
 
@@ -127,7 +133,7 @@ class HTTPRequest
         $this->contentType = $contentType;
 
         //TODO search old content type and remove
-        $this->addHeader(new HTTPHeader('Content-Type',$contentType));
+        $this->addHeader(new HTTPHeader('Content-Type', $contentType));
 
         return $this;
     }
@@ -146,7 +152,8 @@ class HTTPRequest
      */
     public function addHeader($header)
     {
-        $this->headers[]=$header;
+        $this->headers[] = $header;
+
         return $this;
     }
 

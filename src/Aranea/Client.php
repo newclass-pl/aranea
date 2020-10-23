@@ -22,9 +22,10 @@ class Client
     public function requestGet($url, $headers = [])
     {
         $request = new HTTPRequest($url);
-        foreach($headers as $kHeader=>$header){
-            $request->addHeader(new HTTPHeader($kHeader,$header));
+        foreach ($headers as $kHeader => $header) {
+            $request->addHeader(new HTTPHeader($kHeader, $header));
         }
+
         return $this->execute($request);
     }
 
@@ -44,8 +45,14 @@ class Client
                 curl_setopt($curl, CURLOPT_USERPWD, $request->getAuth());
             }
 
-            if (HTTPRequest::METHOD_POST === $request->getMethod()) {
-                curl_setopt($curl, CURLOPT_POST, 1);
+            $methods = [
+                HTTPRequest::METHOD_POST,
+                HTTPRequest::METHOD_PUT,
+                HTTPRequest::METHOD_DELETE,
+            ];
+
+            if (in_array($request->getMethod(), $methods, true)) {
+                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $request->getMethod());
                 curl_setopt($curl, CURLOPT_POSTFIELDS, $request->getBody());
             }
 
@@ -59,7 +66,7 @@ class Client
             $result = curl_exec($curl);
             $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
-            if(0===$statusCode){
+            if (0 === $statusCode) {
                 throw new ConnectionException();
             }
 
@@ -75,14 +82,15 @@ class Client
         }
     }
 
-    public function requestPost($url, $attr,$headers=[])
+    public function requestPost($url, $attr, $headers = [])
     {
         $request = new HTTPRequest($url);
-        foreach($headers as $kHeader=>$header){
-            $request->addHeader(new HTTPHeader($kHeader,$header));
+        foreach ($headers as $kHeader => $header) {
+            $request->addHeader(new HTTPHeader($kHeader, $header));
         }
         $request->setMethod(HttpRequest::METHOD_POST);
         $request->setBody($attr);
+
         return $this->execute($request);
 
     }

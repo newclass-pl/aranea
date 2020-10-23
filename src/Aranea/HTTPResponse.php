@@ -22,14 +22,14 @@ class HTTPResponse
     /**
      * @var HTTPHeader[]
      */
-    private $headers=[];
+    private $headers = [];
 
     /**
      * HTTPResponse constructor.
      * @param int $statusCode
      * @param string $data
      */
-    public function __construct($statusCode,$data)
+    public function __construct($statusCode, $data)
     {
         $this->statusCode = $statusCode;
         $this->parseContent($data);
@@ -53,21 +53,21 @@ class HTTPResponse
 
     private function parseContent($data)
     {
-        if(preg_match('/^HTTP\/.*? 100 Continue/',$data)){//FIXME detect invalid header status
-            $data=substr($data,strpos($data,"\r\n\r\n")+4);
+        if (preg_match('/^HTTP\/.*? 100 Continue/', $data)) {//FIXME detect invalid header status
+            $data = substr($data, strpos($data, "\r\n\r\n") + 4);
         }
         list($headers, $body) = explode("\r\n\r\n", $data, 2);
 
-        $lines=explode("\r\n",$headers);
+        $lines = explode("\r\n", $headers);
 
         //TODO detect version
-        for($i=1; $i< count($lines); $i++){
-            $line=$lines[$i];
-            $field=explode(': ',$line,2);
-            $this->headers[]=new HTTPHeader($field[0],$field[1]);
+        for ($i = 1; $i < count($lines); $i++) {
+            $line = $lines[$i];
+            $field = explode(': ', $line, 2);
+            $this->headers[] = new HTTPHeader($field[0], $field[1]);
         }
         //TODO detect content type
-        $this->body=$body;
+        $this->body = $body;
     }
 
     /**

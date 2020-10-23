@@ -19,7 +19,7 @@ class JsonTranform implements TransformInterface
      */
     public function encode($values)
     {
-        if(!is_array($values)){
+        if (!is_array($values)) {
             throw new InvalidTypeException();
         }
 
@@ -33,10 +33,10 @@ class JsonTranform implements TransformInterface
      */
     public function decode($data)
     {
-        if(!is_string($data)){
+        if (!is_string($data)) {
             throw new InvalidTypeException();
         }
 
-        return json_decode($data,true);
+        return json_decode($data, true);
     }
 }
