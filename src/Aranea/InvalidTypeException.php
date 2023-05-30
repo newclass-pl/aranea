@@ -17,6 +17,6 @@ class InvalidTypeException extends \Exception
      */
     public function __construct()
     {
-        parent::__construct(sprintf('Invalid type.'));
+        parent::__construct('Invalid type.');
     }
 }

@@ -1,14 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mtomczak
- * Date: 30/06/2017
- * Time: 11:05
- */
 
 namespace Aranea;
 
-
+/**
+ * HTTPHeader
+ * @package Aranea
+ */
 class HTTPHeader
 {
     /**

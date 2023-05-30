@@ -13,8 +13,8 @@ class JsonTranform implements TransformInterface
 {
 
     /**
-     * @param $values
-     * @return mixed
+     * @param mixed $values
+     * @return false|string
      * @throws InvalidTypeException
      */
     public function encode($values)

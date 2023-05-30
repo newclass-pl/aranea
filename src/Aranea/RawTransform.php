@@ -8,13 +8,16 @@
 
 namespace Aranea;
 
-
+/**
+ * RawTransform
+ * @package Aranea
+ */
 class RawTransform implements TransformInterface
 {
 
     /**
-     * @param $values
-     * @return mixed
+     * @param mixed $values
+     * @return array
      */
     public function encode($values)
     {
@@ -29,6 +32,11 @@ class RawTransform implements TransformInterface
         return $result;
     }
 
+    /**
+     * @param string $key
+     * @param array $values
+     * @return array
+     */
     private function encodeDeep($key, $values)
     {
         $result = [];

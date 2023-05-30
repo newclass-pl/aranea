@@ -59,21 +59,35 @@ class HTTPRequest
         $this->setMethod(static::CONTENT_TYPE_QUERY_STRING);
     }
 
+    /**
+     * @return string
+     */
     public function getUrl()
     {
         return $this->url;
     }
 
+    /**
+     * @return string
+     */
     public function getAuth()
     {
         return $this->auth;
     }
 
+    /**
+     * @return bool
+     */
     public function isAuth()
     {
         return null !== $this->auth;
     }
 
+    /**
+     * @param string $login
+     * @param string $password
+     * @return $this
+     */
     public function setAuth($login, $password)
     {
         $this->auth = $login.':'.$password;
@@ -113,6 +127,7 @@ class HTTPRequest
 
     /**
      * @return mixed
+     * @throws InvalidTypeException
      */
     public function getBody()
     {
